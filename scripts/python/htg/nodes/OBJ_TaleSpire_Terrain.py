@@ -167,15 +167,19 @@ def write_terrain_tiles(node=None):
         hou.ui.displayMessage('Error: You must save the scene before caching the terrain tiles',
                               severity=hou.severityType.Error)
     else:
+        cook_biome_data_node(node)
         write_node = hou.node(node.path() + '/terrain_tiler/write_terrain_tiles')
         read_node = hou.node(node.path() + '/terrain_tiler/read_terrain_tiles')
         write_node.parm('execute').pressButton()
         read_node.parm('reload').pressButton()
-        biome_data_node = hou.node(node.path() + '/DATA/Biome_info')
-        try:
-            biome_data_node.cook(force=True)
-        except hou.OperationFailed:
-            pass
+        cook_biome_data_node(node)
+
+def cook_biome_data_node(node=None):
+    biome_data_node = hou.node(node.path() + '/DATA/Biome_info')
+    try:
+        biome_data_node.cook(force=True)
+    except hou.OperationFailed:
+        pass
 
 
 def cache_uuids(node):

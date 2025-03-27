@@ -12,6 +12,7 @@ def build_ts_database(node):
 
     geo.addAttrib(hou.attribType.Point, 'Id', '')
     geo.addAttrib(hou.attribType.Point, 'Name', '')
+    geo.addAttrib(hou.attribType.Point, "OgName", "")
     geo.addAttrib(hou.attribType.Point, 'Type', '')
     geo.addAttrib(hou.attribType.Point, 'IsDeprecated', 0)
     geo.addAttrib(hou.attribType.Point, 'GroupTag', '')
@@ -61,6 +62,7 @@ def build_ts_database(node):
                         point = geo.createPoint()
                         point.setAttribValue('Id', uuid)
                         asset_name = asset_dict['Name']
+                        point.setAttribValue("OgName", asset_name)
                         asset_tags = asset_dict['Tags']
 
                         tag_name = ''
@@ -95,7 +97,8 @@ def build_ts_database(node):
                         else:
                             is_floor = False
 
-                        proxy_name = asset_name.replace(' ', '_').replace('/', '_').replace('(', '_').replace(')', '_')
+                        #proxy_name = asset_name.replace(' ', '_').replace('/', '_').replace('(', '_').replace(')', '_')
+                        proxy_name = uuid
                         proxy_base_path = f'{htg_basedir}/geo/ts_proxies'
 
                         if (is_floor and tag_name in ('1x1', '2x2')
